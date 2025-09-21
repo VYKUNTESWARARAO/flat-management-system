@@ -41,10 +41,13 @@ const Header = () => {
 
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto d-flex align-items-center">
-              <Nav.Link href="#home" className="text-white">
+              <Nav.Link href="/" className="text-white">
                 Home
               </Nav.Link>
-              <Nav.Link href="/about" className="text-white">
+              <Nav.Link
+                href="/flat-management-system/about"
+                className="text-white"
+              >
                 About
               </Nav.Link>
 
