@@ -18,27 +18,27 @@ const Apartments = () => {
     images: "",
   });
 
-  // Fetch Apartments from backend
+  // Fetch Apartments
   useEffect(() => {
     fetchApartments();
   }, []);
 
   const fetchApartments = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/apartments");
+      const res = await axios.get("http://localhost:2003/api/apartments/getall");
       setApartments(res.data);
     } catch (err) {
       console.error("Error fetching apartments:", err);
     }
   };
 
-  // Open modal for Add or Edit
+  // Open modal
   const handleShow = (apartment = null) => {
     setEditingApartment(apartment);
     if (apartment) {
       setFormData({
         ...apartment,
-        images: apartment.images.join(", "),
+        images: apartment.images ? apartment.images.join(", ") : "",
       });
     } else {
       setFormData({
@@ -57,26 +57,38 @@ const Apartments = () => {
 
   const handleClose = () => setShowModal(false);
 
-  // Handle form change
+  // Form change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Save Apartment (Add / Update)
+  // Save (Add/Update)
   const handleSave = async () => {
     try {
       const payload = {
         ...formData,
-        images: formData.images.split(",").map((img) => img.trim()),
+        images: formData.images
+          ? formData.images.split(",").map((img) => img.trim())
+          : [],
       };
 
+      const token = localStorage.getItem("token");
+      const config = { headers: { Authorization: `Bearer ${token}` } };
+
       if (editingApartment) {
+        // Update
         await axios.put(
-          `http://localhost:8080/api/apartments/${editingApartment.apartmentId}`,
-          payload
+          `http://localhost:2003/api/apartments/${editingApartment.apartmentId}`,
+          payload,
+          config
         );
       } else {
-        await axios.post("http://localhost:8080/api/apartments", payload);
+        // Create
+        await axios.post(
+          "http://localhost:2003/api/apartments/create",
+          payload,
+          config
+        );
       }
 
       fetchApartments();
@@ -86,11 +98,14 @@ const Apartments = () => {
     }
   };
 
-  // Delete Apartment
+  // Delete
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this Apartment?")) {
       try {
-        await axios.delete(`http://localhost:8080/api/apartments/${id}`);
+        const token = localStorage.getItem("token");
+        const config = { headers: { Authorization: `Bearer ${token}` } };
+
+        await axios.delete(`http://localhost:2003/api/apartments/${id}`, config);
         fetchApartments();
       } catch (err) {
         console.error("Error deleting apartment:", err);
