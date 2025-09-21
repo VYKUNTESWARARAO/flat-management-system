@@ -15,7 +15,7 @@ const App = () => {
     <Routes>
       {/* Public Landing Page */}
       <Route path="/" element={<HomePage />} />
-      <Route path="/about" element={<AdminLayout />} />
+      <Route path="/flat-management-system/about" element={<AdminLayout />} />
 
       {/* Admin Layout with Sidebar */}
       <Route
