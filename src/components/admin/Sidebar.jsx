@@ -20,6 +20,11 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li>
+          <NavLink to="/apartments" className="nav-link text-white">
+            <FaHome className="me-2" /> Apartments
+          </NavLink>
+        </li>
+        <li>
           <NavLink to="/admin/tenants" className="nav-link text-white">
             <FaUsers className="me-2" /> Tenants
           </NavLink>
