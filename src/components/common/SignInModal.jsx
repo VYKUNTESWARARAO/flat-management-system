@@ -46,7 +46,7 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
       toast.success(`Login successful: ${username}`, {
         theme: "colored",
         position: "top-center",
-        autoClose: 2000,
+        autoClose: 1000,
         onClose: () => {
           switch (role) {
             case "SUPER_ADMIN":
