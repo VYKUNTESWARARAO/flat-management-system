@@ -12,33 +12,31 @@ import HomePage from "./Pages/HomePage.jsx";
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        {/* Public Landing Page */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AdminLayout />} />
+    <Routes>
+      {/* Public Landing Page */}
+      <Route path="/" element={<HomePage />} />
+      <Route path="/about" element={<AdminLayout />} />
 
-        {/* Admin Layout with Sidebar */}
-        <Route
-          path="/admin/*"
-          element={
-            <div className="d-flex">
-              <Sidebar />
-              <div className="flex-grow-1 p-3">
-                <Routes>
-                  <Route path="/" element={<AdminDashboard />} />
-                  <Route path="/residents" element={<Residents />} />
-                  <Route path="/tenants" element={<Tenants />} />
-                  <Route path="/staff" element={<Staff />} />
-                  <Route path="/complaints" element={<Complaints />} />
-                  <Route path="/payments" element={<Payments />} />
-                </Routes>
-              </div>
+      {/* Admin Layout with Sidebar */}
+      <Route
+        path="/admin/*"
+        element={
+          <div className="d-flex">
+            <Sidebar />
+            <div className="flex-grow-1 p-3">
+              <Routes>
+                <Route path="/" element={<AdminDashboard />} />
+                <Route path="/residents" element={<Residents />} />
+                <Route path="/tenants" element={<Tenants />} />
+                <Route path="/staff" element={<Staff />} />
+                <Route path="/complaints" element={<Complaints />} />
+                <Route path="/payments" element={<Payments />} />
+              </Routes>
             </div>
-          }
-        />
-      </Routes>
-    </Router>
+          </div>
+        }
+      />
+    </Routes>
   );
 };
 
