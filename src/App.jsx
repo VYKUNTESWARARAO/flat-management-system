@@ -25,7 +25,7 @@ const App = () => {
             <Sidebar />
             <div className="flex-grow-1 p-3">
               <Routes>
-                <Route path="/" element={<AdminDashboard />} />
+                <Route path="/dashboard" element={<AdminLayout />} />
                 <Route path="/residents" element={<Residents />} />
                 <Route path="/tenants" element={<Tenants />} />
                 <Route path="/staff" element={<Staff />} />

@@ -8,7 +8,6 @@ import AdminDashboard from "../components/admin/AdminDashboard.jsx";
 const AdminLayout = () => {
   return (
     <div className="admin-layout d-flex">
-      <Sidebar />
       <div className="admin-content flex-grow-1">
         <Topbar />
         <main className="p-3">

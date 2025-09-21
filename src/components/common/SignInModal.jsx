@@ -24,17 +24,45 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
   }, [timer]);
 
   // ---- Normal Login ----
-  const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post("/api/login", { mobile, password });
-      alert(response.data.message || "Login success");
-      handleClose();
-    } catch (error) {
-      alert(error.response?.data?.message || "Login failed");
+const handleSubmit = async () => {
+  setLoading(true);
+  try {
+    const response = await axios.post("http://localhost:2002/auth/login", {
+      phoneNumber: mobile,
+      password,
+    });
+
+    const { token, role } = response.data;
+
+    // Save JWT token
+    localStorage.setItem("token", token);
+
+    alert("Login success: " + response.data.username);
+
+    // Redirect based on role
+    switch(role) {
+      case "SUPER_ADMIN":
+        window.location.href = "admin/dashboard";
+        break;
+      case "MANAGER":
+        window.location.href = "/manager-dashboard";
+        break;
+      case "RESIDENT":
+        window.location.href = "/resident-dashboard";
+        break;
+      default:
+        alert("Unknown role, cannot redirect");
     }
-    setLoading(false);
-  };
+
+    handleClose();
+  } catch (error) {
+    alert(error.response?.data?.message || "Login failed");
+  }
+  setLoading(false);
+};
+
+
+
 
   // ---- Trigger OTP Login ----
   const handleLoginOTP = async () => {
