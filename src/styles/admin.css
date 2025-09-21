@@ -1,0 +1,18 @@
+.admin-layout {
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background-color: #134164;
+  min-height: 100vh;
+}
+
+.sidebar .nav-link {
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.sidebar .nav-link.active {
+  background-color: #0d2e49;
+}

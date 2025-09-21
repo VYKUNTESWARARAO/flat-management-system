@@ -1,0 +1,34 @@
+.feature-section {
+  min-height: 100vh; /* takes full screen height minus header */
+  background: linear-gradient(
+      rgba(26, 143, 228, 0.786),
+      rgba(59, 38, 52, 0.8)
+    ),
+    url("https://thumbs.dreamstime.com/b/stunning-sunset-view-modern-apartment-overlooking-new-york-city-skyline-breathtaking-illuminates-viewed-stylish-vibrant-379390018.jpg")
+      center/cover no-repeat;
+  padding: 4rem 0;
+  
+}
+.main-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6rem;
+}
+
+
+
+.feature-card {
+  background-color: #0652c3; /* Bootstrap primary */
+  color: white;
+  transition: all 0.3s;
+  cursor: pointer;
+  padding: 1.5rem;
+  
+}
+
+.feature-card:hover {
+  background-color: #f6f6f6; /* yellow */
+  color: #000000; /* dark blue text on hover */
+}
