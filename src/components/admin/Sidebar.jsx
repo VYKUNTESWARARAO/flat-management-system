@@ -15,7 +15,7 @@ const Sidebar = () => {
       <h4 className="text-white mb-4">Admin Panel</h4>
       <ul className="nav flex-column">
         <li>
-          <NavLink to="/about" end className="nav-link text-white">
+          <NavLink to="/admin/dashboard" end className="nav-link text-white">
             <FaHome className="me-2" /> Dashboard
           </NavLink>
         </li>
