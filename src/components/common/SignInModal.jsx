@@ -16,7 +16,7 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
   const otpRefs = useRef([]);
   const navigate = useNavigate();
 
-  // Countdown for resend OTP
+  // Countdown timer for OTP resend
   useEffect(() => {
     let interval;
     if (timer > 0) interval = setInterval(() => setTimer((t) => t - 1), 1000);
@@ -42,25 +42,40 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
 
-      toast.success(`Login success: ${username}`, { theme: "colored" });
-
-      switch (role) {
-        case "SUPER_ADMIN":
-          navigate("/admin/dashboard");
-          break;
-        case "MANAGER":
-          navigate("/manager-dashboard");
-          break;
-        case "RESIDENT":
-          navigate("/resident-dashboard");
-          break;
-        default:
-          toast.error("Unknown role, cannot redirect");
-      }
-
-      handleClose();
+      // ✅ Show success toast before navigating
+      toast.success(`Login successful: ${username}`, {
+        theme: "colored",
+        position: "top-center",
+        autoClose: 2000,
+        onClose: () => {
+          switch (role) {
+            case "SUPER_ADMIN":
+              navigate("/admin/dashboard");
+              break;
+            case "MANAGER":
+              navigate("/manager-dashboard");
+              break;
+            case "RESIDENT":
+              navigate("/resident-dashboard");
+              break;
+            default:
+              toast.error("Unknown role, cannot redirect");
+          }
+          handleClose();
+        },
+      });
     } catch (error) {
-      toast.error(error.response?.data || "Login failed");
+      let msg = "Login failed";
+      if (error.response) {
+        if (typeof error.response.data === "string") {
+          msg = error.response.data;
+        } else if (error.response.data.message) {
+          msg = error.response.data.message;
+        }
+      } else if (error.message) {
+        msg = error.message;
+      }
+      toast.error(msg, { theme: "colored", position: "top-center" });
     }
     setLoading(false);
   };
@@ -93,10 +108,14 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
         mobile,
         otp: otpValue,
       });
-      toast.success(response.data.message || "OTP verified, login success");
-      handleClose();
+      toast.success(response.data.message || "OTP verified, login success", {
+        theme: "colored",
+        position: "top-center",
+        autoClose: 2000,
+        onClose: handleClose,
+      });
     } catch (error) {
-      toast.error(error.response?.data || "OTP verification failed");
+      toast.error(error.response?.data || "OTP verification failed", { theme: "colored" });
     }
     setLoading(false);
   };
@@ -110,7 +129,7 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
       setTimer(30);
       setOtp(new Array(6).fill(""));
     } catch (error) {
-      toast.error(error.response?.data || "Failed to resend OTP");
+      toast.error(error.response?.data || "Failed to resend OTP", { theme: "colored" });
     }
     setLoading(false);
   };
@@ -121,7 +140,6 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
       const newOtp = [...otp];
       newOtp[index] = val;
       setOtp(newOtp);
-
       if (val && index < otp.length - 1) otpRefs.current[index + 1].focus();
     }
   };
@@ -163,8 +181,12 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
         otp: otp.join(""),
         newPassword,
       });
-      toast.success("Password reset successful! Please login with new password.");
-      setStep("login");
+      toast.success("Password reset successful! Please login with new password.", {
+        theme: "colored",
+        position: "top-center",
+        autoClose: 2000,
+        onClose: () => setStep("login"),
+      });
     } catch (error) {
       toast.error(error.response?.data || "Password reset failed");
     }
@@ -240,7 +262,7 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
               </>
             )}
 
-            {/* ---- OTP / Forgot password forms ---- */}
+            {/* ---- OTP Login ---- */}
             {step === "otpLogin" && (
               <div className="d-flex justify-content-center gap-2 mb-3">
                 {otp.map((digit, index) => (
@@ -252,15 +274,35 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
                     ref={(el) => (otpRefs.current[index] = el)}
                     onChange={(e) => handleOtpChange(e.target.value, index)}
                     onKeyDown={(e) => handleKeyDown(e, index)}
-                    style={{ width: "3rem", height: "3rem", textAlign: "center", fontSize: "1.25rem" }}
+                    style={{
+                      width: "3rem",
+                      height: "3rem",
+                      textAlign: "center",
+                      fontSize: "1.25rem",
+                    }}
                   />
                 ))}
-                <Button variant="success" className="w-100 mt-2" onClick={handleVerifyOTP} disabled={loading}>
+                <Button
+                  variant="success"
+                  className="w-100 mt-2"
+                  onClick={handleVerifyOTP}
+                  disabled={loading}
+                >
                   {loading ? "Verifying..." : "Verify & Login"}
+                </Button>
+
+                <Button
+                  variant="link"
+                  className="w-100 mt-2"
+                  onClick={handleResendOTP}
+                  disabled={timer > 0}
+                >
+                  {timer > 0 ? `Resend OTP in ${timer}s` : "Resend OTP"}
                 </Button>
               </div>
             )}
 
+            {/* ---- Forgot Password ---- */}
             {step === "forgot1" && (
               <>
                 <Form.Group className="mb-3">
@@ -271,7 +313,12 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
                     onChange={(e) => setMobile(e.target.value)}
                   />
                 </Form.Group>
-                <Button variant="primary" onClick={handleSendOTP} className="w-100" disabled={loading}>
+                <Button
+                  variant="primary"
+                  onClick={handleSendOTP}
+                  className="w-100"
+                  disabled={loading}
+                >
                   {loading ? "Sending..." : "Send OTP"}
                 </Button>
               </>
@@ -289,7 +336,12 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
                       ref={(el) => (otpRefs.current[index] = el)}
                       onChange={(e) => handleOtpChange(e.target.value, index)}
                       onKeyDown={(e) => handleKeyDown(e, index)}
-                      style={{ width: "3rem", height: "3rem", textAlign: "center", fontSize: "1.25rem" }}
+                      style={{
+                        width: "3rem",
+                        height: "3rem",
+                        textAlign: "center",
+                        fontSize: "1.25rem",
+                      }}
                     />
                   ))}
                 </div>
@@ -304,7 +356,12 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
                   />
                 </Form.Group>
 
-                <Button variant="success" className="w-100" onClick={handleResetPassword} disabled={loading}>
+                <Button
+                  variant="success"
+                  className="w-100"
+                  onClick={handleResetPassword}
+                  disabled={loading}
+                >
                   {loading ? "Resetting..." : "Reset Password"}
                 </Button>
               </>
