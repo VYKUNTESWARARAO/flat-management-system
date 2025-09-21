@@ -2,6 +2,7 @@
   "name": "flat-management-system",
   "private": true,
   "version": "0.0.0",
+  "homepage": "https://VYKUNTESWARARAO.github.io/flat-management-system",
   "type": "module",
   "scripts": {
     "dev": "vite",
