@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ApartmentForm from "../components/ApartmentForm.jsx";
-import ApartmentList from "../components/ApartmentList.jsx";
-import ApartmentMap from "../components/ApartmentMap.jsx";
-import { getAllApartments } from "../services/ApartmentService.js";
 
 const ApartmentManagement = () => {
   const [apartments, setApartments] = useState([]);
@@ -52,21 +48,20 @@ const ApartmentManagement = () => {
 
   return (
     <div className="container mt-4">
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={1000} />
 
       <h2 className="mb-4">Apartment Management</h2>
 
       <div className="row">
         <div className="col-md-4">
           <h4>{selectedApartment ? "Edit Apartment" : "Add New Apartment"}</h4>
-          <ApartmentForm selectedApartment={selectedApartment} onSaved={handleSaved} />
         </div>
 
         <div className="col-md-8">
           <h4>All Apartments</h4>
-          <ApartmentList onEdit={handleEdit} apartments={apartments} />
+    
           <h4 className="mt-4">Apartments on Map</h4>
-          <ApartmentMap apartments={mapData} />
+          
         </div>
       </div>
     </div>

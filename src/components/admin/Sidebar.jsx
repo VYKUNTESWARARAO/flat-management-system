@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"; 
 import {
   FaUsers,
   FaHome,
@@ -20,7 +20,7 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/apartments" className="nav-link text-white">
+          <NavLink to="/admin/apartments" className="nav-link text-white">
             <FaHome className="me-2" /> Apartments
           </NavLink>
         </li>

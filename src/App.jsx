@@ -11,6 +11,7 @@ import Payments from "./components/admin/crudpages/Payments.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ApartmentManagement from "./components/apartments/ApartmentManagement.jsx";
 
 const AdminWrapper = () => {
   return (
@@ -19,6 +20,7 @@ const AdminWrapper = () => {
       <div className="flex-grow-1 p-3">
         <Routes>
           <Route path="dashboard" element={<AdminLayout />} />
+          <Route path="apartments" element={<ApartmentManagement />} />
           <Route path="residents" element={<Residents />} />
           <Route path="tenants" element={<Tenants />} />
           <Route path="staff" element={<Staff />} />
