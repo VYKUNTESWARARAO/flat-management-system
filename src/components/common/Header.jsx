@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
-import axios from "axios";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 import RequestCallBackModal from "./RequestCallBackModal";
@@ -8,11 +7,24 @@ import "../../styles/header.css";
 import logo from "../../assets/images/logo.png";
 
 const Header = () => {
-  const [locations, setLocations] = useState([]);
-
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showRequest, setShowRequest] = useState(false);
+
+  // Track login state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState("Rahul");
+
+  // Handle login success (from SignInModal)
+  const handleLoginSuccess = (name) => {
+    setUserName(name || "User");
+    setIsLoggedIn(true);
+    setShowSignIn(false);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
 
   return (
     <>
@@ -59,14 +71,34 @@ const Header = () => {
                 Request Call Back
               </Button>
 
-              {/* Sign In Button */}
-              <Button
-                variant="outline-light"
-                className="ms-3 fw-semibold rounded px-3"
-                onClick={() => setShowSignIn(true)}
-              >
-                Sign In
-              </Button>
+              {/* Conditional Rendering */}
+              {isLoggedIn ? (
+                <Dropdown align="end" className="ms-3">
+                  <Dropdown.Toggle
+                    variant="outline-light"
+                    className="fw-semibold rounded px-3"
+                  >
+                    My Account
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="/resident-dashboard">
+                      Dashboard
+                    </Dropdown.Item>
+                    <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              ) : (
+                <Button
+                  variant="outline-light"
+                  className="ms-3 fw-semibold rounded px-3"
+                  onClick={() => setShowSignIn(true)}
+                >
+                  Sign In
+                </Button>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -76,6 +108,7 @@ const Header = () => {
       <SignInModal
         show={showSignIn}
         handleClose={() => setShowSignIn(false)}
+        onLoginSuccess={handleLoginSuccess} // pass success callback
         switchToSignUp={() => {
           setShowSignIn(false);
           setShowSignUp(true);
