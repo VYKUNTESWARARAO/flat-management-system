@@ -1,50 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
 import axios from "axios";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 import RequestCallBackModal from "./RequestCallBackModal";
 import "../../styles/header.css";
 import logo from "../../assets/images/logo.png";
-import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const [locations, setLocations] = useState([]);
+
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showRequest, setShowRequest] = useState(false);
-  const [user, setUser] = useState(null);
-
-  const navigate = useNavigate();
-
-  // Check if user already logged in (from localStorage/session)
-  useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("user"));
-    if (savedUser) {
-      setUser(savedUser);
-    }
-  }, []);
-
-  const handleLoginSuccess = (userData) => {
-    // Save user to localStorage
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
-    setShowSignIn(false);
-
-    // Redirect based on role
-    if (userData.role === "SUPER_ADMIN") {
-      navigate("/admin-dashboard");
-    } else if (userData.role === "RESIDENT") {
-      navigate("/resident-dashboard");
-    } else if (userData.role === "MANAGER") {
-      navigate("/manager-dashboard");
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
-    navigate("/");
-  };
 
   return (
     <>
@@ -91,42 +59,14 @@ const Header = () => {
                 Request Call Back
               </Button>
 
-              {!user ? (
-                // If not logged in show sign in button
-                <Button
-                  variant="outline-light"
-                  className="ms-3 fw-semibold rounded px-3"
-                  onClick={() => setShowSignIn(true)}
-                >
-                  Sign In
-                </Button>
-              ) : (
-                // If logged in show My Account + Logout
-                <>
-                  <Button
-                    variant="outline-light"
-                    className="ms-3 fw-semibold rounded px-3"
-                    onClick={() => {
-                      if (user.role === "SUPER_ADMIN") {
-                        navigate("/admin-dashboard");
-                      } else if (user.role === "RESIDENT") {
-                        navigate("/resident-dashboard");
-                      } else if (user.role === "MANAGER") {
-                        navigate("/manager-dashboard");
-                      }
-                    }}
-                  >
-                    My Account
-                  </Button>
-                  <Button
-                    variant="danger"
-                    className="ms-2 fw-semibold rounded px-3"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Button>
-                </>
-              )}
+              {/* Sign In Button */}
+              <Button
+                variant="outline-light"
+                className="ms-3 fw-semibold rounded px-3"
+                onClick={() => setShowSignIn(true)}
+              >
+                Sign In
+              </Button>
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -140,7 +80,6 @@ const Header = () => {
           setShowSignIn(false);
           setShowSignUp(true);
         }}
-        onLoginSuccess={handleLoginSuccess} // send login success event
       />
 
       <SignUpModal
