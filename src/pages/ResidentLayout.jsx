@@ -1,20 +1,18 @@
+// ResidentLayout.jsx
 import React from "react";
 import { Outlet } from "react-router-dom";
 import ResidentHeader from "../components/resident/ResidentHeader.jsx";
-import HomePage from "../Pages/HomePage.jsx";
-import ResidentSidebar from "../components/resident/ResidentSideBar.jsx";
+import Footer from "../components/common/Footer.jsx";
+import Hero from "../components/home/Hero.jsx";
+import BackToTop from "../components/common/BackToTop.jsx";
 
 const ResidentLayout = () => {
   return (
     <>
-      <ResidentSidebar />
       <ResidentHeader />
-      {/* Main content of resident pages */}
-      <div className="resident-content">
-        <Outlet />
-        <HomePage />
-        {/* Nested routes for resident pages */}
-      </div>
+      <Hero />
+      <BackToTop />
+      <Footer />
     </>
   );
 };

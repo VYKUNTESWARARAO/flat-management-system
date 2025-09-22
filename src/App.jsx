@@ -20,6 +20,7 @@ import ResidentProfile from "./components/resident/ResidentProfile.jsx";
 
 // Resident
 import ResidentLayout from "./pages/ResidentLayout.jsx";
+import ResidentProfile from "./components/resident/ResidentProfile.jsx";
 
 // Manager
 import ManagerDashboard from "./pages/ManagerDashboard.jsx";
@@ -37,6 +38,7 @@ const AdminWrapper = () => {
           <Route path="staff" element={<Staff />} />
           <Route path="complaints" element={<Complaints />} />
           <Route path="payments" element={<Payments />} />
+          {/* Default redirect */}
           <Route path="" element={<Navigate to="dashboard" replace />} />
           <Route path="*" element={<Navigate to="dashboard" replace />} />
         </Routes>
@@ -48,11 +50,13 @@ const AdminWrapper = () => {
 const ResidentWrapper = () => {
   return (
     <Routes>
-      <Route path="dashboard" element={<ResidentLayout />} />
-      <Route path="profile" element={<ResidentProfile />} />
-
-      <Route path="" element={<Navigate to="dashboard" replace />} />
-      <Route path="*" element={<Navigate to="dashboard" replace />} />
+      <Route element={<ResidentLayout />}>
+        <Route path="dashboard" element={<h2>Resident Dashboard</h2>} />
+        <Route path="profile" element={<ResidentProfile />} />
+        {/* Default redirect */}
+        <Route path="" element={<Navigate to="dashboard" replace />} />
+        <Route path="*" element={<Navigate to="dashboard" replace />} />
+      </Route>
     </Routes>
   );
 };
@@ -69,7 +73,7 @@ const ManagerWrapper = () => {
 const App = () => {
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer position="top-right" autoClose={2000} /> {/* Reduced timer */}
       <Routes>
         {/* Public Landing Page */}
         <Route path="/" element={<HomePage />} />
