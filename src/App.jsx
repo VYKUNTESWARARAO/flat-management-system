@@ -11,8 +11,11 @@ import Payments from "./components/admin/crudpages/Payments.jsx";
 import HomePage from "./Pages/HomePage.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import Apartments from "./components/admin/crudpages/Apartments.jsx";
+
+// Dummy placeholders (create proper dashboards later)
+import ResidentDashboard from "./pages/ResidentDashboard.jsx";
+import ManagerDashboard from "./pages/ManagerDashboard.jsx";
 
 const AdminWrapper = () => {
   return (
@@ -27,13 +30,29 @@ const AdminWrapper = () => {
           <Route path="staff" element={<Staff />} />
           <Route path="complaints" element={<Complaints />} />
           <Route path="payments" element={<Payments />} />
-          {/* Redirect /admin to /admin/dashboard */}
           <Route path="" element={<Navigate to="dashboard" replace />} />
-          {/* Catch-all for unknown admin routes */}
           <Route path="*" element={<Navigate to="dashboard" replace />} />
         </Routes>
       </div>
     </div>
+  );
+};
+
+const ResidentWrapper = () => {
+  return (
+    <Routes>
+      <Route path="dashboard" element={<ResidentDashboard />} />
+      <Route path="*" element={<Navigate to="dashboard" replace />} />
+    </Routes>
+  );
+};
+
+const ManagerWrapper = () => {
+  return (
+    <Routes>
+      <Route path="dashboard" element={<ManagerDashboard />} />
+      <Route path="*" element={<Navigate to="dashboard" replace />} />
+    </Routes>
   );
 };
 
@@ -45,8 +64,10 @@ const App = () => {
         {/* Public Landing Page */}
         <Route path="/" element={<HomePage />} />
 
-        {/* Admin Routes */}
+        {/* Role Based Routes */}
         <Route path="/admin/*" element={<AdminWrapper />} />
+        <Route path="/resident/*" element={<ResidentWrapper />} />
+        <Route path="/manager/*" element={<ManagerWrapper />} />
 
         {/* Catch-all fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

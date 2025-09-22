@@ -1,29 +1,49 @@
-import React, { useState } from "react";
-import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Navbar, Nav, Container, Button } from "react-bootstrap";
+import axios from "axios";
 import SignInModal from "./SignInModal";
 import SignUpModal from "./SignUpModal";
 import RequestCallBackModal from "./RequestCallBackModal";
 import "../../styles/header.css";
 import logo from "../../assets/images/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
   const [showRequest, setShowRequest] = useState(false);
+  const [user, setUser] = useState(null);
 
-  // Track login state
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState("Rahul");
+  const navigate = useNavigate();
 
-  // Handle login success (from SignInModal)
-  const handleLoginSuccess = (name) => {
-    setUserName(name || "User");
-    setIsLoggedIn(true);
+  // Check if user already logged in (from localStorage/session)
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    if (savedUser) {
+      setUser(savedUser);
+    }
+  }, []);
+
+  const handleLoginSuccess = (userData) => {
+    // Save user to localStorage
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
     setShowSignIn(false);
+
+    // Redirect based on role
+    if (userData.role === "SUPER_ADMIN") {
+      navigate("/admin-dashboard");
+    } else if (userData.role === "RESIDENT") {
+      navigate("/resident-dashboard");
+    } else if (userData.role === "MANAGER") {
+      navigate("/manager-dashboard");
+    }
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/");
   };
 
   return (
@@ -71,26 +91,8 @@ const Header = () => {
                 Request Call Back
               </Button>
 
-              {/* Conditional Rendering */}
-              {isLoggedIn ? (
-                <Dropdown align="end" className="ms-3">
-                  <Dropdown.Toggle
-                    variant="outline-light"
-                    className="fw-semibold rounded px-3"
-                  >
-                    My Account
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="/resident-dashboard">
-                      Dashboard
-                    </Dropdown.Item>
-                    <Dropdown.Item href="/profile">Profile</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              ) : (
+              {!user ? (
+                // If not logged in show sign in button
                 <Button
                   variant="outline-light"
                   className="ms-3 fw-semibold rounded px-3"
@@ -98,6 +100,32 @@ const Header = () => {
                 >
                   Sign In
                 </Button>
+              ) : (
+                // If logged in show My Account + Logout
+                <>
+                  <Button
+                    variant="outline-light"
+                    className="ms-3 fw-semibold rounded px-3"
+                    onClick={() => {
+                      if (user.role === "SUPER_ADMIN") {
+                        navigate("/admin-dashboard");
+                      } else if (user.role === "RESIDENT") {
+                        navigate("/resident-dashboard");
+                      } else if (user.role === "MANAGER") {
+                        navigate("/manager-dashboard");
+                      }
+                    }}
+                  >
+                    My Account
+                  </Button>
+                  <Button
+                    variant="danger"
+                    className="ms-2 fw-semibold rounded px-3"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </>
               )}
             </Nav>
           </Navbar.Collapse>
@@ -108,11 +136,11 @@ const Header = () => {
       <SignInModal
         show={showSignIn}
         handleClose={() => setShowSignIn(false)}
-        onLoginSuccess={handleLoginSuccess} // pass success callback
         switchToSignUp={() => {
           setShowSignIn(false);
           setShowSignUp(true);
         }}
+        onLoginSuccess={handleLoginSuccess} // send login success event
       />
 
       <SignUpModal
