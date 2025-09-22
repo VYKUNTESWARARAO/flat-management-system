@@ -1,6 +1,13 @@
 // App.jsx
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+// Public Pages
+import HomePage from "./Pages/HomePage.jsx";
+
+// Admin
 import Sidebar from "./components/admin/Sidebar.jsx";
 import AdminLayout from "./pages/AdminLayout.jsx";
 import Residents from "./components/admin/crudpages/Residents.jsx";
@@ -8,13 +15,12 @@ import Tenants from "./components/admin/crudpages/Tenants.jsx";
 import Staff from "./components/admin/crudpages/Staff.jsx";
 import Complaints from "./components/admin/crudpages/Complaints.jsx";
 import Payments from "./components/admin/crudpages/Payments.jsx";
-import HomePage from "./Pages/HomePage.jsx";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import Apartments from "./components/admin/crudpages/Apartments.jsx";
 
-// Dummy placeholders (create proper dashboards later)
-import ResidentDashboard from "./pages/ResidentDashboard.jsx";
+// Resident
+import ResidentLayout from "./pages/ResidentLayout.jsx";
+
+// Manager
 import ManagerDashboard from "./pages/ManagerDashboard.jsx";
 
 const AdminWrapper = () => {
@@ -40,10 +46,9 @@ const AdminWrapper = () => {
 
 const ResidentWrapper = () => {
   return (
-    <Routes>
-      <Route path="dashboard" element={<ResidentDashboard />} />
-      <Route path="*" element={<Navigate to="dashboard" replace />} />
-    </Routes>
+    <ResidentLayout>
+      <Routes></Routes>
+    </ResidentLayout>
   );
 };
 
