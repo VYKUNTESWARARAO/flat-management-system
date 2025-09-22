@@ -16,6 +16,7 @@ import Staff from "./components/admin/crudpages/Staff.jsx";
 import Complaints from "./components/admin/crudpages/Complaints.jsx";
 import Payments from "./components/admin/crudpages/Payments.jsx";
 import Apartments from "./components/admin/crudpages/Apartments.jsx";
+import ResidentProfile from "./components/resident/ResidentProfile.jsx";
 
 // Resident
 import ResidentLayout from "./pages/ResidentLayout.jsx";
