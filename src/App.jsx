@@ -46,11 +46,13 @@ const AdminWrapper = () => {
 
 const ResidentWrapper = () => {
   return (
-    <ResidentLayout>
-      <Routes>
-        <Route path="dashboard" element={<ResidentLayout />} />
-      </Routes>
-    </ResidentLayout>
+    <Routes>
+      <Route path="dashboard" element={<ResidentLayout />} />
+      <Route path="profile" element={<ResidentProfile />} />
+
+      <Route path="" element={<Navigate to="dashboard" replace />} />
+      <Route path="*" element={<Navigate to="dashboard" replace />} />
+    </Routes>
   );
 };
 
