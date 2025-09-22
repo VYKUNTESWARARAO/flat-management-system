@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 // Public Pages
 import HomePage from "./Pages/HomePage.jsx";
 
-// Admin
+// Admin Pages
 import Sidebar from "./components/admin/Sidebar.jsx";
 import AdminLayout from "./pages/AdminLayout.jsx";
 import Residents from "./components/admin/crudpages/Residents.jsx";
@@ -16,78 +16,70 @@ import Staff from "./components/admin/crudpages/Staff.jsx";
 import Complaints from "./components/admin/crudpages/Complaints.jsx";
 import Payments from "./components/admin/crudpages/Payments.jsx";
 import Apartments from "./components/admin/crudpages/Apartments.jsx";
-import ResidentProfile from "./components/resident/ResidentProfile.jsx";
 
-// Resident
+// Resident Pages
 import ResidentLayout from "./pages/ResidentLayout.jsx";
 import ResidentProfile from "./components/resident/ResidentProfile.jsx";
+import ResidentFlats from "./components/resident/ResidentFlats.jsx";
 
-// Manager
+// Manager Pages
 import ManagerDashboard from "./pages/ManagerDashboard.jsx";
 
-const AdminWrapper = () => {
-  return (
-    <div className="d-flex">
-      <Sidebar />
-      <div className="flex-grow-1 p-3">
-        <Routes>
-          <Route path="dashboard" element={<AdminLayout />} />
-          <Route path="apartments" element={<Apartments />} />
-          <Route path="residents" element={<Residents />} />
-          <Route path="tenants" element={<Tenants />} />
-          <Route path="staff" element={<Staff />} />
-          <Route path="complaints" element={<Complaints />} />
-          <Route path="payments" element={<Payments />} />
-          {/* Default redirect */}
-          <Route path="" element={<Navigate to="dashboard" replace />} />
-          <Route path="*" element={<Navigate to="dashboard" replace />} />
-        </Routes>
-      </div>
-    </div>
-  );
-};
-
-const ResidentWrapper = () => {
-  return (
-    <Routes>
-      <Route element={<ResidentLayout />}>
-        <Route path="dashboard" element={<h2>Resident Dashboard</h2>} />
-        <Route path="profile" element={<ResidentProfile />} />
-        {/* Default redirect */}
+const AdminWrapper = () => (
+  <div className="d-flex">
+    <Sidebar />
+    <div className="flex-grow-1 p-3">
+      <Routes>
+        <Route path="dashboard" element={<AdminLayout />} />
+        <Route path="apartments" element={<Apartments />} />
+        <Route path="residents" element={<Residents />} />
+        <Route path="tenants" element={<Tenants />} />
+        <Route path="staff" element={<Staff />} />
+        <Route path="complaints" element={<Complaints />} />
+        <Route path="payments" element={<Payments />} />
         <Route path="" element={<Navigate to="dashboard" replace />} />
         <Route path="*" element={<Navigate to="dashboard" replace />} />
-      </Route>
-    </Routes>
-  );
-};
-
-const ManagerWrapper = () => {
-  return (
-    <Routes>
-      <Route path="dashboard" element={<ManagerDashboard />} />
-      <Route path="*" element={<Navigate to="dashboard" replace />} />
-    </Routes>
-  );
-};
-
-const App = () => {
-  return (
-    <>
-      <ToastContainer position="top-right" autoClose={2000} /> {/* Reduced timer */}
-      <Routes>
-        {/* Public Landing Page */}
-        <Route path="/" element={<HomePage />} />
-
-        {/* Role Based Routes */}
-        <Route path="/admin/*" element={<AdminWrapper />} />
-        <Route path="/resident/*" element={<ResidentWrapper />} />
-        <Route path="/manager/*" element={<ManagerWrapper />} />
-
-        {/* Catch-all fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </>
-  );
-};
+    </div>
+  </div>
+);
+
+const ResidentWrapper = () => (
+  <Routes>
+    <Route element={<ResidentLayout />}>
+      <Route path="dashboard" element={null} />{" "}
+      {/* Hero shows by default in layout */}
+      <Route path="profile" element={<ResidentProfile />} />
+      <Route path="flats" element={<ResidentFlats />} />
+      <Route path="" element={<Navigate to="dashboard" replace />} />
+      <Route path="*" element={<Navigate to="dashboard" replace />} />
+    </Route>
+  </Routes>
+);
+
+const ManagerWrapper = () => (
+  <Routes>
+    <Route path="dashboard" element={<ManagerDashboard />} />
+    <Route path="*" element={<Navigate to="dashboard" replace />} />
+  </Routes>
+);
+
+const App = () => (
+  <>
+    <ToastContainer position="top-right" autoClose={2000} />
+    <Routes>
+      {/* Public Landing Page */}
+      <Route path="/" element={<HomePage />} />
+
+      {/* Role Based Routes */}
+      <Route path="/admin/*" element={<AdminWrapper />} />
+      <Route path="/resident/*" element={<ResidentWrapper />} />
+      <Route path="/manager/*" element={<ManagerWrapper />} />
+
+      {/* Catch-all fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  </>
+);
 
 export default App;

@@ -1,18 +1,18 @@
-// ResidentLayout.jsx
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import ResidentHeader from "../components/resident/ResidentHeader.jsx";
-import Footer from "../components/common/Footer.jsx";
 import Hero from "../components/home/Hero.jsx";
-import BackToTop from "../components/common/BackToTop.jsx";
 
 const ResidentLayout = () => {
+  // State to track if user clicked profile or flats
+  const [showMainHero, setShowMainHero] = useState(true);
+
   return (
     <>
-      <ResidentHeader />
-      <Hero />
-      <BackToTop />
-      <Footer />
+      <ResidentHeader setShowMainHero={setShowMainHero} />
+
+      {/* Conditional main content */}
+      {showMainHero ? <Hero /> : <Outlet />}
     </>
   );
 };
