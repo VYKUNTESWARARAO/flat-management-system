@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
+import "../../styles/residentHeader.css";
 
-const ResidentHeader = ({ setShowMainHero }) => {
+const ResidentHeader = () => {
   const navigate = useNavigate();
   const [resident, setResident] = useState(null);
 
@@ -21,16 +22,14 @@ const ResidentHeader = ({ setShowMainHero }) => {
   };
 
   const goToProfile = () => {
-    setShowMainHero(false); // Hide Hero
     navigate("/resident/profile");
   };
 
   const goToFlats = () => {
-    setShowMainHero(false); // Hide Hero
     navigate("/resident/flats");
   };
 
-  if (!resident) return null; // Hide if not logged in
+  if (!resident) return null; // only show for logged-in residents
 
   return (
     <Navbar
@@ -40,8 +39,10 @@ const ResidentHeader = ({ setShowMainHero }) => {
       className="py-4 shadow-sm"
     >
       <Container fluid>
+        {/* Brand */}
         <Navbar.Brand
-          href="/resident/dashboard"
+          as={NavLink}
+          to="/resident/dashboard"
           className="fw-bold text-white fs-4 d-flex align-items-center"
         >
           <img
@@ -54,34 +55,35 @@ const ResidentHeader = ({ setShowMainHero }) => {
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="resident-navbar-nav" />
+
         <Navbar.Collapse id="resident-navbar-nav">
           <Nav className="ms-auto d-flex align-items-center">
-            <Nav.Link href="/resident" className="text-white">
+            <Nav.Link as={NavLink} to="/resident/dashboard" className="text-white">
               Home
             </Nav.Link>
-            <Nav.Link
-              href="/flat-management-system/about"
-              className="text-white"
-            >
+            <Nav.Link as={NavLink} to="/about" className="text-white">
               About
             </Nav.Link>
 
+            {/* ✅ My Account Button */}
             <Button
               variant="outline-light"
               className="ms-3 fw-semibold rounded px-3"
               onClick={goToProfile}
             >
-              My Profile
+              My Account
             </Button>
 
+            {/* ✅ Find Your Flats Button */}
             <Button
               variant="outline-light"
               className="ms-2 fw-semibold rounded px-3"
               onClick={goToFlats}
             >
-              Find Your Flat
+              Find Your Flats
             </Button>
 
+            {/* Logout Button */}
             <Button
               variant="danger"
               className="ms-2 fw-semibold rounded px-3"

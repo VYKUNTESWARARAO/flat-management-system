@@ -55,7 +55,7 @@ const SignInModal = ({ show, handleClose, switchToSignUp }) => {
           navigate("/admin/dashboard");
           break;
         case "MANAGER":
-          navigate("/manager-dashboard");
+          navigate("/manager/dashboard");
           break;
         case "RESIDENT":
           navigate("/resident/dashboard");

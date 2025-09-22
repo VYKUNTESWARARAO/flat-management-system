@@ -20,7 +20,6 @@ import Apartments from "./components/admin/crudpages/Apartments.jsx";
 // Resident Pages
 import ResidentLayout from "./pages/ResidentLayout.jsx";
 import ResidentProfile from "./components/resident/ResidentProfile.jsx";
-import ResidentFlats from "./components/resident/ResidentFlats.jsx";
 
 // Manager Pages
 import ManagerDashboard from "./pages/ManagerDashboard.jsx";
@@ -50,7 +49,7 @@ const ResidentWrapper = () => (
       <Route path="dashboard" element={null} />{" "}
       {/* Hero shows by default in layout */}
       <Route path="profile" element={<ResidentProfile />} />
-      <Route path="flats" element={<ResidentFlats />} />
+
       <Route path="" element={<Navigate to="dashboard" replace />} />
       <Route path="*" element={<Navigate to="dashboard" replace />} />
     </Route>
