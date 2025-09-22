@@ -47,7 +47,9 @@ const AdminWrapper = () => {
 const ResidentWrapper = () => {
   return (
     <ResidentLayout>
-      <Routes></Routes>
+      <Routes>
+        <Route path="dashboard" element={<ResidentLayout />} />
+      </Routes>
     </ResidentLayout>
   );
 };
