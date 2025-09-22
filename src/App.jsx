@@ -46,12 +46,12 @@ const AdminWrapper = () => (
 const ResidentWrapper = () => (
   <Routes>
     <Route element={<ResidentLayout />}>
-      <Route path="dashboard" element={null} />{" "}
+      <Route path="/dashboard" element={<ResidentLayout />} />{" "}
       {/* Hero shows by default in layout */}
-      <Route path="profile" element={<ResidentProfile />} />
+      <Route path="/profile" element={<ResidentProfile />} />
 
-      <Route path="" element={<Navigate to="dashboard" replace />} />
-      <Route path="*" element={<Navigate to="dashboard" replace />} />
+      <Route path="" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Route>
   </Routes>
 );

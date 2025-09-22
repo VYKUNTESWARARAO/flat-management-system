@@ -1,96 +1,55 @@
-import React, { useEffect, useState } from "react";
-import { Navbar, Nav, Container, Button } from "react-bootstrap";
-import { useNavigate, NavLink } from "react-router-dom";
-import logo from "../../assets/images/logo.png";
+import React from "react";
+import { Navbar, Nav, Container, Button, Image, Dropdown } from "react-bootstrap";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../styles/residentHeader.css";
+import logo from "../../assets/images/logo.png";
 
 const ResidentHeader = () => {
   const navigate = useNavigate();
-  const [resident, setResident] = useState(null);
 
-  useEffect(() => {
-    const savedUser = JSON.parse(localStorage.getItem("user"));
-    if (savedUser && savedUser.role === "RESIDENT") {
-      setResident(savedUser);
-    }
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    setResident(null);
-    navigate("/");
-  };
-
-  const goToProfile = () => {
-    navigate("/resident/profile");
-  };
-
-  const goToFlats = () => {
-    navigate("/resident/flats");
-  };
-
-  if (!resident) return null; // only show for logged-in residents
+  const goToProfile = () => navigate("/resident/profile");
+  const goToFlats = () => navigate("/resident/flats");
+  const handleLogout = () => navigate("/");
 
   return (
-    <Navbar
-      style={{ backgroundColor: "#134164ff" }}
-      variant="dark"
-      expand="lg"
-      className="py-4 shadow-sm"
-    >
+    <Navbar className="resident-navbar" variant="dark" expand="lg" sticky="top">
       <Container fluid>
-        {/* Brand */}
-        <Navbar.Brand
-          as={NavLink}
-          to="/resident/dashboard"
-          className="fw-bold text-white fs-4 d-flex align-items-center"
-        >
-          <img
-            src={logo}
-            alt="HSM Logo"
-            className="me-2"
-            style={{ height: "40px", width: "40px", objectFit: "contain" }}
-          />
-          Harini Smart Homes
+        <Navbar.Brand as={NavLink} to="/" className="resident-navbar-brand">
+          <Image src={logo} alt="HSM Logo" className="resident-logo" />
+          <span className="brand-text">Harini Smart Homes</span>
         </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="resident-navbar-nav" />
-
-        <Navbar.Collapse id="resident-navbar-nav">
-          <Nav className="ms-auto d-flex align-items-center">
-            <Nav.Link as={NavLink} to="/resident/dashboard" className="text-white">
+        <Navbar.Toggle aria-controls="resident-nav" />
+        <Navbar.Collapse id="resident-nav">
+          <Nav className="ms-auto align-items-center">
+            <Nav.Link as={NavLink} to="/" className="nav-link-custom">
               Home
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/about" className="text-white">
+            <Nav.Link as={NavLink} to="/about" className="nav-link-custom">
               About
             </Nav.Link>
 
-            {/* ✅ My Account Button */}
             <Button
               variant="outline-light"
-              className="ms-3 fw-semibold rounded px-3"
-              onClick={goToProfile}
-            >
-              My Account
-            </Button>
-
-            {/* ✅ Find Your Flats Button */}
-            <Button
-              variant="outline-light"
-              className="ms-2 fw-semibold rounded px-3"
+              className="resident-btn me-3"
               onClick={goToFlats}
             >
               Find Your Flats
             </Button>
 
-            {/* Logout Button */}
-            <Button
-              variant="danger"
-              className="ms-2 fw-semibold rounded px-3"
-              onClick={handleLogout}
-            >
-              Logout
-            </Button>
+            {/* My Account dropdown */}
+            <Dropdown align="end">
+              <Dropdown.Toggle className="resident-avatar-toggle" id="resident-menu">
+                My Account
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={goToProfile}>Profile</Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item onClick={handleLogout} className="text-danger">
+                  Logout
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Nav>
         </Navbar.Collapse>
       </Container>

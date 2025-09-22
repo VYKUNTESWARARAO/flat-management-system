@@ -1,51 +1,57 @@
-/* residentHeader.css */
-
-/* ✅ Custom button style (yellow to green) */
-button.resident-btn {
-  background-color: #efc135 !important; /* yellow */
-  border: none !important;
-  color: #000 !important;
-  font-weight: 600;
-  transition: all 0.3s ease-in-out;
-}
-
-button.resident-btn:hover {
-  background-color: #2a7c3d !important; /* green */
-  color: #fff !important;
-}
-
-/* ✅ Navbar Brand Logo */
-.resident-navbar-brand img {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
-  border-radius: 6px;
-  padding: 2px;
-  background: #fff; /* white bg for transparent logos */
+.resident-navbar {
+  background-color: #134164ff;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .resident-navbar-brand {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 1.3rem;
   font-weight: bold;
-  color: #fff !important;
+  font-size: 1.25rem;
+  color: white !important;
   text-decoration: none;
 }
 
-/* ✅ Navbar tweaks */
-.resident-navbar {
-  background-color: #134164ff !important; /* dark blue */
-  padding: 1rem 1.5rem;
+.resident-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #fff;
+  padding: 2px;
 }
 
-.resident-navbar .nav-link {
-  color: #fff !important;
+.brand-text {
+  color: white;
+}
+
+.nav-link-custom {
+  color: white !important;
+  margin-right: 15px;
   font-weight: 500;
-  transition: color 0.2s ease;
 }
 
-.resident-navbar .nav-link:hover {
-  color: #efc135 !important; /* yellow on hover */
+.nav-link-custom:hover {
+  color: #efc135 !important;
+}
+
+.resident-btn {
+  font-weight: 600;
+  border-radius: 8px;
+}
+
+.resident-avatar-toggle {
+  background: #efc135 !important;
+  border: none !important;
+  color: #000 !important;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 6px 12px;
+}
+
+.resident-avatar-toggle:hover {
+  background: #2a7c3d !important;
+  color: #fff !important;
 }
