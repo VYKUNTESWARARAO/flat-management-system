@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom"; 
+import { FaTachometerAlt } from "react-icons/fa";
 import {
   FaUsers,
   FaHome,
@@ -12,13 +13,13 @@ import {
 const Sidebar = () => {
   return (
     <div className="sidebar p-3">
-      <h4 className="text-white mb-4">Admin Panel</h4>
+      <h4 className="text-white mb-4">SuperAdmin</h4>
       <ul className="nav flex-column">
-        <li>
-          <NavLink to="/admin/dashboard" end className="nav-link text-white">
-            <FaHome className="me-2" /> Dashboard
-          </NavLink>
-        </li>
+<li>
+  <NavLink to="/admin/dashboard" end className="nav-link text-white">
+    <FaTachometerAlt className="me-2" /> Dashboard
+  </NavLink>
+</li>
         <li>
           <NavLink to="/admin/apartments" className="nav-link text-white">
             <FaHome className="me-2" /> Apartments
@@ -26,14 +27,14 @@ const Sidebar = () => {
         </li>
         <li>
           <NavLink to="/admin/tenants" className="nav-link text-white">
-            <FaUsers className="me-2" /> Tenants
+            <FaUsers className="me-2" /> Managers
           </NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink to="/admin/staff" className="nav-link text-white">
             <FaUserTie className="me-2" /> Staff
           </NavLink>
-        </li>
+        </li> */}
         <li>
           <NavLink to="/admin/residents" className="nav-link text-white">
             <FaUserFriends className="me-2" /> Residents

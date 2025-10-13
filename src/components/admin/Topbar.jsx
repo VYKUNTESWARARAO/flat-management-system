@@ -21,10 +21,10 @@ const Topbar = () => {
         <Nav className="ms-auto">
           <Dropdown align="end">
             <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic">
-              Admin
+              Profile
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item>Profile</Dropdown.Item>
+              <Dropdown.Item>My Profile</Dropdown.Item>
               <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

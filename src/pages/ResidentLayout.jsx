@@ -9,9 +9,13 @@ const ResidentLayout = () => {
   return (
 <>
         <ResidentHeader />
-          <Hero />
+      <Hero /> 
+       
+      
+          
 
     </>
+    
   );
 };
 
